@@ -1,0 +1,25 @@
+
+class Solution{
+  public:
+   
+  void findsubset(int ind, vector<int>&arr,  int sum , vector<int>&ds ,int N){
+       if(ind==N){
+           ds.push_back(sum);
+           return;
+       }
+       
+      findsubset(ind+1,arr,sum+arr[ind],ds,N);
+      
+      findsubset(ind+1,arr,sum,ds,N);
+   }
+   
+
+    vector<int> subsetSums(vector<int> arr, int N)
+    {
+        // Write Your Code here
+        
+        vector<int>ds;
+        findsubset( 0 ,arr,0, ds,N);
+        return ds;
+    }
+};
