@@ -1,0 +1,81 @@
+// M1:Memoization Method 
+//TC:O(N)
+//SC:O(N)+O(N)
+
+#include <bits/stdc++.h> 
+
+int solve(int ind, vector<int> &nums, vector<int> &dp){
+    if(ind==0)return nums[ind];
+    if(ind<0)return 0;
+   if(dp[ind]!=-1)return dp[ind];
+    int pick=nums[ind]+solve(ind-2 , nums,dp);
+    int notpick=solve(ind-1 ,nums,dp);
+    return  dp[ind]=max(pick,notpick);
+}
+
+
+int maximumNonAdjacentSum(vector<int> &nums){
+    int n=nums.size();
+    vector<int>dp(n,-1);
+    return  solve( n-1,nums,dp);
+}
+
+//  M2:tabulation
+
+#include <bits/stdc++.h> 
+
+
+int solve(int ind, vector<int> &nums, vector<int> &dp){
+    dp[0]=nums[0];
+    int n=nums.size();
+    int notpick=INT_MIN;
+    for(int i=1;i<n;i++){
+        int pick=nums[i];
+         if(i>1){
+             pick+=dp[i-2];
+             }
+         notpick=dp[i-1];
+        dp[i]=max(pick,notpick);
+    }
+    return dp[n-1];
+}
+
+
+int maximumNonAdjacentSum(vector<int> &nums){
+  
+    int n=nums.size();
+    vector<int>dp(n,-1);
+    return solve( n-1,nums,dp);
+}
+
+// M3 Tabulation with space optimization
+
+#include <bits/stdc++.h> 
+
+
+int solve(int ind, vector<int> &nums){
+   int  prev=nums[0];
+   int prev2=0;
+
+    int n=nums.size();
+    int notpick=INT_MIN;
+    for(int i=1;i<n;i++){
+       int pick=nums[i]+prev2;
+       if(i>1){
+            notpick=prev;   
+       }
+
+       int curri=max(pick,notpick);
+       prev2=prev;
+       prev=curri;
+    }
+    return prev;
+}
+
+
+int maximumNonAdjacentSum(vector<int> &nums){
+  
+    int n=nums.size();
+    
+    return solve( n-1,nums);
+}
